@@ -1,0 +1,38 @@
+{
+  "name": "sugar-filter",
+  "version": "0.0.1",
+  "description": "Javascript Object filter with syntactic sugar",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "npx esbuild --minify --bundle --outdir=dist src/index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ofhope/sugar-filter.git"
+  },
+  "keywords": [
+    "fp",
+    "nlp",
+    "typescript",
+    "object",
+    "filter"
+  ],
+  "author": "Alexis Hope",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ofhope/sugar-filter/issues"
+  },
+  "homepage": "https://github.com/ofhope/sugar-filter#readme",
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "esbuild": "^0.7.21",
+    "jest": "^26.6.1",
+    "ts-jest": "^26.4.2",
+    "typescript": "^4.0.3"
+  }
+}
