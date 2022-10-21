@@ -15,6 +15,14 @@ export const curry = (func) => {
   return curried;
 };
 
-// prop
-// map
-// filter
+export const prop = curry((property, object) => {
+  return object[property];
+});
+
+export const map = curry((fn, arr) => {
+  return arr.map(fn);
+});
+
+export const filter = curry((fn, arr) => {
+  return arr.filter(fn);
+});
