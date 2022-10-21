@@ -76,4 +76,14 @@ describe("normaliseObject", () => {
 
     expect(result).toEqual({ a: "foo,bar" });
   });
+  it("should ignore null or undefined values", () => {
+    const mockObject = {
+      a: "foo",
+      b: null,
+      c: undefined,
+    };
+    const result = normaliseObject(mockObject);
+
+    expect(result).toEqual({ a: "foo" });
+  });
 });

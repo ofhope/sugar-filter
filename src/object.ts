@@ -9,6 +9,9 @@ export const normaliseObject = (obj) => {
   const keyValuePairs = Object.entries(obj);
   return keyValuePairs.reduce((accumulator, pair) => {
     const [key, value] = pair;
+    if (value === undefined || value === null) {
+      return accumulator;
+    }
     if (isArray(value)) {
       accumulator[normaliseString(key)] = stringifyArray(value);
       return accumulator;
