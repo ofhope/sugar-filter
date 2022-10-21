@@ -1,33 +1,7 @@
 import { curry, pipe } from "./fp";
-
-// util for point free variants (this allows composition in pipe)
-const splitOnComma = (str) => str.split(",");
-const toString = (int) => int.toString();
-const onDuplicate = (s, i, a) => a.indexOf(s) === i;
-const dedupe = (a) => a.filter(onDuplicate);
-
-// String Transformers. Expects `string` returns `string`
-const toLowerCase = (str) => str.toLowerCase();
-const trim = (str) => str.trim();
-const normaliseUTF8 = (str) => str.normalize("NFD"); // standises UTF8 character codes
-const normaliseDiacritics = (str) => str.replace(/[\u0300-\u036f]/g, ""); // normalise diacritics "éàçèñ" -> "eacen"
-const normaliseString = pipe(
-  trim,
-  toLowerCase,
-  normaliseUTF8,
-  normaliseDiacritics
-);
-
-// String[] -> Stirng[]
-const normaliseArray = (a) => a.map(normaliseString);
-
-// Object mappers
-const normaliseTag = (tag) => normaliseString(tag.value);
-const normaliseFlag = (flag) => ({
-  id: toString(flag.id),
-  description: normaliseString(flag.description),
-  tags: flag.tags.map(normaliseTag).join(" "),
-});
+import { normaliseArray } from "./array";
+import { normaliseObject } from "./object";
+import { splitOnComma } from "./string";
 
 // Flag matchers
 const matchPropertyValue = curry((property, value, flag) => {
@@ -64,7 +38,7 @@ const applyMatchersToFlag = curry((matcherFns, flag) =>
 );
 
 // Tokeniser, basic comma seperated lists. Expects `string` returns `string[]`
-const tokenise = pipe(splitOnComma, normaliseArray, dedupe);
+const tokenise = pipe(splitOnComma, normaliseArray);
 // Transform string input into a function expecting a Flag object to match on
 // string -> Flag -> boolean
 const makeMatcherFrom = pipe(tokenise, termsToMatchFns, applyMatchersToFlag);
@@ -72,7 +46,7 @@ const makeMatcherFrom = pipe(tokenise, termsToMatchFns, applyMatchersToFlag);
 export const sugarFilter = (haystack, input) => {
   const onMatch = makeMatcherFrom(input);
   const results = haystack
-    .map(normaliseFlag)
+    .map(normaliseObject)
     .filter(onMatch)
     .map((flag) => parseInt(flag.id, 10)); // collect matched IDs
   return haystack.filter((flag) => results.includes(flag.id));
