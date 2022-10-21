@@ -1,4 +1,4 @@
-import { curry, pipe } from "./fp";
+import { curry, map, pipe } from "./fp";
 import { tokenise } from "./nlp";
 
 const matchPropertyValue = curry((property, value, object) => {
@@ -27,9 +27,7 @@ const termToMatchFn = (term) => {
   return matchDefault(term);
 };
 
-const termsToMatchFns = (terms) => {
-  return terms.map(termToMatchFn);
-};
+const termsToMatchFns = map(termToMatchFn);
 
 const applyMatchers = curry((matcherFns, object) =>
   matcherFns.map((matcher) => matcher(object)).includes(true)
