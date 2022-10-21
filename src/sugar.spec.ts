@@ -1,4 +1,4 @@
-import { sugarFilter } from "./index";
+import { sugarFilter } from "./sugar";
 
 const mockFlags = [
   {
@@ -15,6 +15,7 @@ const mockFlags = [
     id: 3,
     tags: [{ value: "sun" }, { value: "solar" }],
     description: "bar-ight 2",
+    foo: "bazzz",
   },
 ];
 
@@ -85,5 +86,11 @@ describe("sugarFilter", () => {
     expect(result.length).toEqual(2);
     expect(result[0].id).toEqual(2);
     expect(result[1].id).toEqual(3);
+  });
+  it("should match generic objects", () => {
+    const result = sugarFilter(mockFlags, "foo:bazzz");
+
+    expect(result.length).toEqual(1);
+    expect(result[0].id).toEqual(3);
   });
 });
