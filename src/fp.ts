@@ -14,3 +14,7 @@ export const curry = (func) => {
   };
   return curried;
 };
+
+// prop
+// map
+// filter
